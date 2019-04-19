@@ -248,6 +248,7 @@ def always_roll(n):
 
     >>> strategy = always_roll(5)
     >>> strategy(0, 0)
+
     5
     >>> strategy(99, 99)
     5
@@ -269,7 +270,15 @@ def make_averaged(fn, num_samples=1000):
     3.0
     """
     # BEGIN PROBLEM 8
-    "*** YOUR CODE HERE ***"
+    def average(*args):
+        nonlocal num_samples
+        sum = 0
+        count = 0
+        while count < num_samples:
+            sum += fn(*args)
+            count += 1
+        return sum / num_samples
+    return average
     # END PROBLEM 8
 
 
@@ -283,7 +292,15 @@ def max_scoring_num_rolls(dice=six_sided, num_samples=1000):
     1
     """
     # BEGIN PROBLEM 9
-    "*** YOUR CODE HERE ***"
+    number = 1
+    highest_score = 0
+    for i in range(1, 11):
+        averaged = make_averaged(roll_dice, num_samples)
+        score = averaged(i, dice)
+        if (score > highest_score):
+            highest_score = score
+            number = i
+    return number
     # END PROBLEM 9
 
 

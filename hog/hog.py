@@ -104,6 +104,46 @@ def silence(score0, score1):
     return silence
 
 
+def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
+         goal=GOAL_SCORE, say=silence):
+    """Simulate a game and return the final scores of both players, with Player
+    0's score first, and Player 1's score second.
+
+    A strategy is a function that takes two total scores as arguments (the
+    current player's score, and the opponent's score), and returns a number of
+    dice that the current player will roll this turn.
+
+    strategy0:  The strategy function for Player 0, who plays first.
+    strategy1:  The strategy function for Player 1, who plays second.
+    score0:     Starting score for Player 0
+    score1:     Starting score for Player 1
+    dice:       A function of zero arguments that simulates a dice roll.
+    goal:       The game ends and someone wins when this score is reached.
+    say:        The commentary function to call at the end of the first turn.
+    """
+    player = 0  # Which player is about to take a turn, 0 (first) or 1 (second)
+    # BEGIN PROBLEM 5
+    while (score0 < goal and score1 < goal):
+        if player == 0:
+            num_rolls = strategy0(score0, score1)
+            score0 += take_turn(num_rolls, score1, dice)
+        else:
+            num_rolls = strategy1(score1, score0)
+            score1 += take_turn(num_rolls, score0, dice)
+        if is_swap(score0, score1):
+            t = score0
+            score0 = score1
+            score1 = t
+        say = say(score0, score1)
+        player = other(player)
+    # END PROBLEM 5
+    return score0, score1
+
+
+#######################
+# Phase 2: Commentary #
+#######################
+
 def say_scores(score0, score1):
     """A commentary function that announces the score for each player."""
     print("Player 0 now has", score0, "and Player 1 now has", score1)
@@ -151,51 +191,6 @@ def both(f, g):
     def say(score0, score1):
         return both(f(score0, score1), g(score0, score1))
     return say
-
-
-def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
-         goal=GOAL_SCORE, say=both(say_scores, announce_lead_changes())):
-    """Simulate a game and return the final scores of both players, with Player
-    0's score first, and Player 1's score second.
-
-    A strategy is a function that takes two total scores as arguments (the
-    current player's score, and the opponent's score), and returns a number of
-    dice that the current player will roll this turn.
-
-    strategy0:  The strategy function for Player 0, who plays first.
-    strategy1:  The strategy function for Player 1, who plays second.
-    score0:     Starting score for Player 0
-    score1:     Starting score for Player 1
-    dice:       A function of zero arguments that simulates a dice roll.
-    goal:       The game ends and someone wins when this score is reached.
-    say:        The commentary function to call at the end of the first turn.
-    """
-    player = 0  # Which player is about to take a turn, 0 (first) or 1 (second)
-    # BEGIN PROBLEM 5
-    while (score0 < goal and score1 < goal):
-        if player == 0:
-            num_rolls = strategy0(score0, score1)
-            score0 += take_turn(num_rolls, score1, dice)
-        else:
-            num_rolls = strategy1(score1, score0)
-            score1 += take_turn(num_rolls, score0, dice)
-        if is_swap(score0, score1):
-            t = score0
-            score0 = score1
-            score1 = t
-        say = say(score0, score1)
-        player = other(player)
-    # END PROBLEM 5
-    return score0, score1
-
-
-#######################
-# Phase 2: Commentary #
-#######################
-
-
-
-
 
 
 def announce_highest(who, previous_high=0, previous_score=0):

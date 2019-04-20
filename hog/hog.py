@@ -380,7 +380,19 @@ def final_strategy(score, opponent_score):
     *** YOUR DESCRIPTION HERE ***
     """
     # BEGIN PROBLEM 12
-    return 4  # Replace this statement
+    score_after_bacon = score + free_bacon(opponent_score)
+    if score_after_bacon >= 100:
+        return 0
+    elif score >= 90:
+        return 2
+    elif score_after_bacon < opponent_score:
+        if is_swap(score_after_bacon, opponent_score) and opponent_score - score > 10:
+            return 0
+    diff = score -opponent_score
+    if diff > 0:
+        return swap_strategy(score, opponent_score, margin=8, num_rolls=4)
+    else:
+        return swap_strategy(score, opponent_score, margin=14, num_rolls=10)
     # END PROBLEM 12
 
 

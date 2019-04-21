@@ -153,6 +153,10 @@ def filtered_accumulate(combiner, base, pred, n, term):
     """
     def combine_if(x, y):
         "*** YOUR CODE HERE ***"
+        if pred(x):
+            return combiner(x, y)
+        else:
+            return y
     return accumulate(combine_if, base, n, term)
 
 def odd(x):
@@ -177,7 +181,9 @@ def make_repeater(f, n):
     5
     """
     "*** YOUR CODE HERE ***"
-    def repeat(k, n):
+    return accumulate(compose1, lambda x: x, n, lambda x: f)
+    """
+    def repeat(k):
         if n == 1:
             return f(k)
         elif n == 0:
@@ -185,6 +191,7 @@ def make_repeater(f, n):
         else:
             return f(make_repeater(f, n - 1))
     return repeat
+    """
 
 def compose1(f, g):
     """Return a function h, such that h(x) = f(g(x))."""
@@ -196,8 +203,7 @@ def compose1(f, g):
 # Extra Questions #
 ###################
 
-quine = """
-"*** YOUR CODE HERE ***"
+quine = """ _='_=%r; print(_%%_)'; print (_%_) 
 """
 
 def zero(f):
@@ -209,10 +215,12 @@ def successor(n):
 def one(f):
     """Church numeral 1: same as successor(zero)"""
     "*** YOUR CODE HERE ***"
+    return lambda x: f(x)
 
 def two(f):
     """Church numeral 2: same as successor(successor(zero))"""
     "*** YOUR CODE HERE ***"
+    return lambda x: f(f(x))
 
 three = successor(two)
 
@@ -229,6 +237,7 @@ def church_to_int(n):
     3
     """
     "*** YOUR CODE HERE ***"
+
 
 def add_church(m, n):
     """Return the Church numeral for m + n, for Church numerals m and n.

@@ -89,7 +89,15 @@ def g_iter(n):
     True
     """
     "*** YOUR CODE HERE ***"
-    return g(n)
+    if n <= 3:
+        return n
+    else:
+        i = 3
+        num1, num2, num3 = 1, 2, 3
+        while i <= n - 1:
+            num1, num2, num3 = num2, num3, num1 * 3 + num2 * 2 + num3
+            i += 1
+        return num3
 
 def pingpong(n):
     """Return the nth element of the ping-pong sequence.
@@ -123,6 +131,27 @@ def pingpong(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    """
+    i, num, incr = 1, 0, 1
+    while i <= n:
+        num += incr
+        if has_seven(i) or i % 7 == 0:
+            incr *= -1
+        i += 1
+    return num
+    """
+    def contain(n):
+        return n % 7 == 0 or has_seven(n)
+
+    def calc(x, element, incr):
+        if x == n:
+            return element + incr
+        if contain(x):
+            return calc(x + 1, element + incr, -incr)
+        else:
+            return calc(x + 1, element + incr, incr)
+
+    return calc(1, 0, 1)
 
 
 def has_seven(k):

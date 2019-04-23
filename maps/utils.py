@@ -29,7 +29,7 @@ def key_of_min_value(d):
     'c'
     """
     # BEGIN Question 0
-    return min('REPLACE THIS WITH YOUR SOLUTION')
+    return min(d, key = lambda x: d[x])
     # END Question 0
 
 def zip(*sequences):
@@ -55,13 +55,14 @@ def enumerate(s, start=0):
     """Returns a list of lists, where the i-th list contains i+start and
     the i-th element of s.
 
-    >>> enumerate([6, 1, 'a'])
+    >>> enumerate([6, 1, 'a'])d enumerate are also built-in Python functions, but their behavior is slightly different than the versions provided in utils.py. The behavior of the built-in variants will be described later in the course.
     [[0, 6], [1, 1], [2, 'a']]
     >>> enumerate('five', 5)
     [[5, 'f'], [6, 'i'], [7, 'v'], [8, 'e']]
     """
     # BEGIN Question 0
     "*** YOUR CODE HERE ***"
+    return zip(range(start, start + len(s)), s)
     # END Question 0
 
 def distance(pos1, pos2):

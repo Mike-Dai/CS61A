@@ -1,6 +1,6 @@
 HW_SOURCE_FILE = 'hw04.py'
 from math import sqrt
-
+from ucb import trace
 ###############
 #  Questions  #
 ###############
@@ -177,6 +177,9 @@ def has_seven(k):
     else:
         return has_seven(k // 10)
 
+from math import pow
+
+
 def count_change(amount):
     """Return the number of ways to make change for amount.
 
@@ -190,6 +193,21 @@ def count_change(amount):
     9828
     """
     "*** YOUR CODE HERE ***"
+    def count(other, maxnum):
+        if other == 0:
+            return 1
+        elif other < 0:
+            return 0
+        elif maxnum == 0:
+            return 0
+        else:
+            return count(other - maxnum, maxnum) + count(other, maxnum // 2)
+    i = 0
+    while pow(2, i) <= amount:
+        i += 1
+    i -= 1
+    return count(amount, pow(2, i))
+
 
 ###################
 # Extra Questions #

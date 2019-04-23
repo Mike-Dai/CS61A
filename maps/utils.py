@@ -3,6 +3,7 @@
 from math import sqrt
 from random import sample
 
+
 # Rename the built-in zip (http://docs.python.org/3/library/functions.html#zip)
 _zip = zip
 
@@ -83,4 +84,6 @@ def mean(s):
     """
     # BEGIN Question 1
     "*** YOUR CODE HERE ***"
+    assert s, "Argument can not be empty!"
+    return sum(s) / len(s)
     # END Question 1

@@ -5,6 +5,7 @@ from data import ALL_RESTAURANTS, CATEGORIES, USER_FILES, load_user_file
 from ucb import main, trace, interact
 from utils import distance, mean, zip, enumerate, sample
 from visualize import draw_map
+from math import sqrt
 
 ##################################
 # Phase 2: Unsupervised Learning #
@@ -110,7 +111,28 @@ def find_predictor(user, restaurants, feature_fn):
     ys = [reviews_by_user[restaurant_name(r)] for r in restaurants]
 
     # BEGIN Question 7
-    b, a, r_squared = 0, 0, 0  # REPLACE THIS LINE WITH YOUR SOLUTION
+    Xmean = mean(xs)
+    Ymean = mean(ys)
+    pairs = zip(xs, ys)
+    Sxx, Syy, Sxy = 0, 0, 0
+    for x, y in pairs:
+        Sxx += (x - Xmean)**2
+        Syy += (y - Ymean)**2
+        Sxy += (x - Xmean) * (y - Ymean)
+    """
+    SxxList = [(x - Xmean)**2 for x in xs]
+    Sxx = sum(SxxList)
+    SyyList = [(y - Ymean)**2 for y in ys]
+    Syy = sum(SyyList)
+    SxyList1 = [(x - Xmean) for x in xs]
+    SxyList2 = [(y - Ymean) for y in ys]
+    Sxy = 0
+    for i in range(0, len(SxyList1)):
+        Sxy += SxyList1[i] * SxyList2[i]
+    """
+    b = Sxy / Sxx  # REPLACE THIS LINE WITH YOUR SOLUTION
+    a = Ymean - b * Xmean
+    r_squared = Sxy * Sxy / (Sxx * Syy)
     # END Question 7
 
     def predictor(restaurant):

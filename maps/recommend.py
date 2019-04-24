@@ -153,6 +153,19 @@ def best_predictor(user, restaurants, feature_fns):
     reviewed = user_reviewed_restaurants(user, restaurants)
     # BEGIN Question 8
     "*** YOUR CODE HERE ***"
+    """
+    Rmax = 0
+    best = None
+    for feature_fn in feature_fns:
+        predictor, r_squared = find_predictor(user, reviewed, feature_fn)
+        if r_squared > Rmax:
+            Rmax = r_squared
+            best = predictor
+    return predictor
+    """
+    maps = {find_predictor(user, reviewed, feature_fn)[0] : find_predictor(user, reviewed, feature_fn)[1]
+     for feature_fn in feature_fns}
+    return max(maps, key = lambda x: maps[x])
     # END Question 8
 
 
@@ -169,6 +182,16 @@ def rate_all(user, restaurants, feature_fns):
     reviewed = user_reviewed_restaurants(user, restaurants)
     # BEGIN Question 9
     "*** YOUR CODE HERE ***"
+    
+    maps = {}
+    for restaurant in restaurants:
+        name = restaurant_name(restaurant)
+        if restaurant in reviewed:
+            maps[name] = user_rating(user, name)
+        else:
+            maps[name] = predictor(restaurant)
+    return maps
+    
     # END Question 9
 
 
@@ -181,6 +204,7 @@ def search(query, restaurants):
     """
     # BEGIN Question 10
     "*** YOUR CODE HERE ***"
+    return [restaurant for restaurant in restaurants if query in restaurant_categories(restaurant)]
     # END Question 10
 
 

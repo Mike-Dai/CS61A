@@ -142,6 +142,25 @@ def move_stack(n, start, end):
     """
     assert 1 <= start <= 3 and 1 <= end <= 3 and start != end, "Bad start/end"
     "*** YOUR CODE HERE ***"
+    another = 6 - start - end
+    if n == 0:
+        return
+    elif n == 1:
+        print_move(start, end)
+        return
+    elif n == 2:
+        print_move(start, another)
+        print_move(start, end)
+        print_move(another, end)
+    else:
+        print_move(start, end)
+        print_move(start, another)
+        print_move(end, another)
+        print_move(start, end)
+        print_move(another, start)
+        print_move(another, end)
+        print_move(start, end)
+        move_stack(n - 3, start, end)
 
 ###########
 # Mobiles #

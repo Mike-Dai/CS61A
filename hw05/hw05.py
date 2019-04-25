@@ -311,6 +311,14 @@ class Account:
         """Return the number of years until balance would grow to amount."""
         assert self.balance > 0 and amount > 0 and self.interest > 0
         "*** YOUR CODE HERE ***"
+        i = 0
+        currBalance = self.balance
+        while True:
+            currBalance += currBalance * self.interest
+            i += 1
+            if currBalance >= amount:
+                return i
+
 
 class FreeChecking(Account):
     """A bank account that charges for withdrawals, but the first two are free!
@@ -338,8 +346,25 @@ class FreeChecking(Account):
     """
     withdraw_fee = 1
     free_withdrawals = 2
+    number = 0
 
     "*** YOUR CODE HERE ***"
+    def withdraw(self, amount):
+        if self.number < self.free_withdrawals:
+            if amount > self.balance:
+                self.number += 1
+                return 'Insufficient funds'
+            self.balance = self.balance - amount
+            self.number += 1
+            return self.balance
+        else:
+            if amount + self.withdraw_fee > self.balance:
+                return 'Insufficient funds'
+            self.balance = self.balance - amount - self.withdraw_fee
+            self.number += 1
+            return self.balance
+
+
 
 ############
 # Mutation #

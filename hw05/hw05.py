@@ -199,14 +199,17 @@ def weight(size):
     """Construct a weight of some size."""
     assert size > 0
     "*** YOUR CODE HERE ***"
+    return [size]
 
 def size(w):
     """Select the size of a weight."""
     "*** YOUR CODE HERE ***"
+    return label(w)
 
 def is_weight(w):
     """Whether w is a weight, not a mobile."""
     "*** YOUR CODE HERE ***"
+    return len(w) == 1
 
 def examples():
     t = mobile(side(1, weight(2)),
@@ -225,7 +228,7 @@ def total_weight(m):
     >>> total_weight(t)
     3
     >>> total_weight(u)
-    6
+    6    
     >>> total_weight(v)
     9
     """
@@ -252,6 +255,14 @@ def balanced(m):
     False
     """
     "*** YOUR CODE HERE ***"
+    if is_mobile(m):
+        if total_weight(end(sides(m)[0])) * length(sides(m)[0]) != total_weight(end(sides(m)[1])) * length(sides(m)[1]):
+            return False
+        else:
+            return balanced(end(sides(m)[0])) and balanced(end(sides(m)[1]))
+    elif is_weight(m):
+        return True
+
 
 #######
 # OOP #

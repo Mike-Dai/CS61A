@@ -391,6 +391,18 @@ def make_counter():
     5
     """
     "*** YOUR CODE HERE ***"
+    dict = {}
+    def counter(str):
+        nonlocal dict
+        for key in dict:
+            if key == str:
+                dict[str] += 1
+                return dict[str]
+        dict[str] = 1
+        return dict[str]
+        
+    return counter
+
 
 def make_fib():
     """Returns a function that returns the next Fibonacci number
@@ -412,6 +424,13 @@ def make_fib():
     12
     """
     "*** YOUR CODE HERE ***"
+    first, second = 1, 0
+    def next_fib():
+        nonlocal first, second
+        first, second = second, first + second
+        return first
+    return next_fib
+
 
 def make_withdraw(balance, password):
     """Return a password-protected withdraw function.
@@ -426,7 +445,7 @@ def make_withdraw(balance, password):
     >>> error
     'Incorrect password'
     >>> new_bal = w(25, 'hax0r')
-    >>> new
+    >>> new_bal
     50
     >>> w(75, 'a')
     'Incorrect password'
@@ -442,6 +461,20 @@ def make_withdraw(balance, password):
     True
     """
     "*** YOUR CODE HERE ***"
+    attempts = []
+    def withdraw(amount, str):
+        nonlocal balance, password, attempts
+        if len(attempts) == 3:
+            return "Your account is locked. Attempts: ['" + attempts[0] + "', '" + attempts[1] + "', '" + attempts[2] + "']"
+        if str != password:
+            attempts.append(str)
+            return 'Incorrect password'
+        if amount > balance:
+            return 'Insufficient funds'
+        balance -= amount
+        return balance
+    return withdraw
+
 
 def make_joint(withdraw, old_password, new_password):
     """Return a password-protected withdraw function that has joint access to
@@ -482,6 +515,15 @@ def make_joint(withdraw, old_password, new_password):
     "Your account is locked. Attempts: ['my', 'secret', 'password']"
     """
     "*** YOUR CODE HERE ***"
+    response = withdraw(0, old_password)
+    if type(response) == str:
+        return response
+    def joint(amount, password):
+        if password == old_password or password == new_password:
+            return withdraw(amount, old_password)
+        else:
+            return withdraw(amount, password)
+    return joint
 
 ###################
 # Extra Questions #

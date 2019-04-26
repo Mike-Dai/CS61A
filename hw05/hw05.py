@@ -577,6 +577,7 @@ def div_interval(x, y):
     any value in y. Division is implemented as the multiplication of x by the
     reciprocal of y."""
     "*** YOUR CODE HERE ***"
+    assert not (lower_bound(y) < 0 and upper_bound(y) > 0)
     reciprocal_y = interval(1/upper_bound(y), 1/lower_bound(y))
     return mul_interval(x, reciprocal_y)
 
@@ -598,8 +599,8 @@ def check_par():
     >>> lower_bound(x) != lower_bound(y) or upper_bound(x) != upper_bound(y)
     True
     """
-    r1 = interval(1, 1) # Replace this line!
-    r2 = interval(1, 1) # Replace this line!
+    r1 = interval(1 / 2, 1) # Replace this line!
+    r2 = interval(1, 2) # Replace this line!
     return r1, r2
 
 def multiple_references_explanation():
@@ -615,6 +616,21 @@ def quadratic(x, a, b, c):
     '0 to 10'
     """
     "*** YOUR CODE HERE ***"
+    def f(t):
+        return a * t * t + b * t + c
+    middle = -b / (2 * a)
+    left, right = lower_bound(x), upper_bound(x)
+    if middle <= left or middle >= right:
+        low, high = f(left), f(right)
+        return interval(min(low, high), max(low, high))
+    else:
+        extreme, low, high = f(middle), f(left), f(right)
+        if a > 0:
+            return interval(extreme, max(low, high))
+        else:
+            return interval(min(low, high), extreme)
+
+
 
 def polynomial(x, c):
     """Return the interval that is the range of the polynomial defined by

@@ -43,7 +43,13 @@ class Place(object):
                 self.ant = insect
             else:
                 # BEGIN Problem 9
-                assert self.ant is None, 'Two ants in {0}'.format(self)
+                if self.ant.can_contain(insect):
+                    self.ant.ant = insect
+                elif insect.can_contain(self.ant):
+                    insect.ant = self.ant
+                    self.ant = insect
+                else:
+                    assert self.ant is None, 'Two ants in {0}'.format(self)
                 # END Problem 9
         else:
             self.bees.append(insect)
@@ -161,6 +167,7 @@ class Ant(Insect):
     implemented = False  # Only implemented Ant classes should be instantiated
     food_cost = 0
     blocks_path = True
+    container = False
 
     def __init__(self, armor=1):
         """Create an Ant with an ARMOR quantity."""
@@ -169,6 +176,7 @@ class Ant(Insect):
     def can_contain(self, other):
         # BEGIN Problem 9
         "*** YOUR CODE HERE ***"
+        return self.container and self.ant == None and not other.container
         # END Problem 9
 
 
@@ -317,6 +325,13 @@ class ShortThrower(ThrowerAnt):
 
 # BEGIN Problem 8
 # The WallAnt class
+class WallAnt(Ant):
+    name = 'Wall'
+    implemented = True
+    food_cost = 4
+
+    def __init__(self):
+        return Ant.__init__(self, 4)
 # END Problem 8
 
 
@@ -387,6 +402,9 @@ class BodyguardAnt(Ant):
     name = 'Bodyguard'
     # BEGIN Problem 9
     implemented = False   # Change to True to view in the GUI
+    food_cost = 4
+    armor = 2
+    container = True
     # END Problem 9
 
     def __init__(self):
@@ -401,6 +419,8 @@ class BodyguardAnt(Ant):
     def action(self, colony):
         # BEGIN Problem 9
         "*** YOUR CODE HERE ***"
+        if self.ant != None:
+            return self.ant.action(colony)
         # END Problem 9
 
 class TankAnt(BodyguardAnt):

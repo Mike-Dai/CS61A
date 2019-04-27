@@ -250,7 +250,10 @@ class FireAnt(Ant):
     name = 'Fire'
     damage = 3
     # BEGIN Problem 5
-    implemented = False   # Change to True to view in the GUI
+    implemented = True  # Change to True to view in the GUI
+    food_cost = 5
+
+
     # END Problem 5
 
     def reduce_armor(self, amount):
@@ -260,7 +263,27 @@ class FireAnt(Ant):
         """
         # BEGIN Problem 5
         "*** YOUR CODE HERE ***"
+        self.armor -= amount
+        if self.armor <= 0:
+            bees_copy = list(self.place.bees)
+            for bee in bees_copy:
+                bee.reduce_armor(self.damage)
+
+            self.place.remove_insect(self)
         # END Problem 5
+
+def reduce_armor(self, amount):
+        """Reduce armor by AMOUNT, and remove the insect from its place if it
+        has no armor remaining.
+
+        >>> test_insect = Insect(5)
+        >>> test_insect.reduce_armor(2)
+        >>> test_insect.armor
+        3
+        """
+        self.armor -= amount
+        if self.armor <= 0:
+            self.place.remove_insect(self)
 
 
 class LongThrower(ThrowerAnt):
@@ -322,22 +345,33 @@ class HungryAnt(Ant):
     """
     name = 'Hungry'
     # BEGIN Problem 6
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
+    food_cost = 4
+    armor = 1
+    time_to_digest = 3
     # END Problem 6
 
     def __init__(self):
         # BEGIN Problem 6
         "*** YOUR CODE HERE ***"
+        self.digesting = 0
         # END Problem 6
 
     def eat_bee(self, bee):
         # BEGIN Problem 6
         "*** YOUR CODE HERE ***"
+        if bee != None:
+            bee.reduce_armor(bee.armor)
+            self.digesting = self.time_to_digest
         # END Problem 6
 
     def action(self, colony):
         # BEGIN Problem 6
         "*** YOUR CODE HERE ***"
+        if self.digesting == 0:
+            self.eat_bee(random_or_none(self.place.bees))
+        else:
+            self.digesting -= 1
         # END Problem 6
 
 

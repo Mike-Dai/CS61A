@@ -539,6 +539,10 @@ def make_slow(action):
     """
     # BEGIN Problem EC
     "*** YOUR CODE HERE ***"
+    def slow(colony):
+        if colony.time % 2 == 0:
+            action(colony)
+    return slow
     # END Problem EC
 
 def make_stun(action):
@@ -548,12 +552,25 @@ def make_stun(action):
     """
     # BEGIN Problem EC
     "*** YOUR CODE HERE ***"
+    def nothing(colony):
+        pass
+    return nothing
     # END Problem EC
 
 def apply_effect(effect, bee, duration):
     """Apply a status effect to a BEE that lasts for DURATION turns."""
     # BEGIN Problem EC
     "*** YOUR CODE HERE ***"
+    old_action = bee.action
+    new_action = effect(bee.action)
+    def apply(colony):
+        nonlocal duration
+        if duration == 0:
+            return old_action(colony)
+        else:
+            duration -= 1
+            return new_action(colony)
+    bee.action = apply
     # END Problem EC
 
 
@@ -562,7 +579,9 @@ class SlowThrower(ThrowerAnt):
 
     name = 'Slow'
     # BEGIN Problem EC
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
+    food_cost = 4
+    damage = 0
     # END Problem EC
 
     def throw_at(self, target):
@@ -575,7 +594,9 @@ class StunThrower(ThrowerAnt):
 
     name = 'Stun'
     # BEGIN Problem EC
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
+    food_cost = 6
+    damage = 0
     # END Problem EC
 
     def throw_at(self, target):

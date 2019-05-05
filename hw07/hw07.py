@@ -170,3 +170,13 @@ class MissManners:
         if not message.startswith(magic_word):
             return 'You must learn to say please first.'
         "*** YOUR CODE HERE ***"
+        words = message.split()
+        if hasattr(self.obj, words[1]):
+            method = getattr(self.obj, words[1])
+            return method(*args)
+        else:
+            response = "Thanks for asking, but I know not how to"
+            for word in words[1:]:
+                response += " " + word
+            response += "."
+            return response

@@ -28,11 +28,20 @@
 )
 
 (define (ordered? s)
-  'YOUR-CODE-HERE
+  (cond
+      ((null? (cdr s)) True)
+      ((< (cadr s) (car s)) False)
+      (else (ordered? (cdr s)))
+  )
 )
 
 (define (nodots s)
-  'YOUR-CODE-HERE
+  (cond
+    ((null? s) nil)
+    ((number? s) (cons s nil))
+    ((pair? (car s)) (cons (nodots (car s)) (nodots (cdr s))))
+    (else (cons (car s) (nodots (cdr s))))
+  )
 )
 
 ; Sets as sorted lists

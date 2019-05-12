@@ -91,5 +91,11 @@
 (define x^3 (make-exp 'x 3))
 
 (define (derive-exp exp var)
-  'YOUR-CODE-HERE
+  (list '* 
+    (exponent exp) 
+    (make-exp 
+      (base exp) 
+      (- (exponent exp) 1)
+    )
+  )
 )

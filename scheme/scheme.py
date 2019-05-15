@@ -77,12 +77,14 @@ class Frame:
         """Define Scheme SYMBOL to have VALUE."""
         # BEGIN PROBLEM 3
         "*** YOUR CODE HERE ***"
+        self.bindings[symbol] = value
         # END PROBLEM 3
 
     def lookup(self, symbol):
         """Return the value bound to SYMBOL. Errors if SYMBOL is not found."""
         # BEGIN PROBLEM 3
         "*** YOUR CODE HERE ***"
+        return self.bindings[symbol]
         # END PROBLEM 3
         raise SchemeError('unknown identifier: {0}'.format(symbol))
 
@@ -142,6 +144,12 @@ class PrimitiveProcedure(Procedure):
             args = args.second
         # BEGIN PROBLEM 4
         "*** YOUR CODE HERE ***"
+        if self.use_env == True:
+            python_args.append(env)
+        try:
+            return self.fn(*python_args)
+        except Exception:
+            raise SchemeError
         # END PROBLEM 4
 
 class LambdaProcedure(Procedure):

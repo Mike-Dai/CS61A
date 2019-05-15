@@ -149,6 +149,12 @@ def read_tail(src):
         elif src.current() == '.':
             # BEGIN PROBLEM 2
             "*** YOUR CODE HERE ***"
+            src.remove_front()
+            expr = scheme_read(src)
+            if src.current() != ')':
+                raise SyntaxError('more than 1 item after dot')
+            src.remove_front()
+            return expr
             # END PROBLEM 2
         else:
             # BEGIN PROBLEM 1

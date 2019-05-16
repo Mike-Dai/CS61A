@@ -32,6 +32,9 @@ def scheme_eval(expr, env, _=None): # Optional third argument is ignored
     else:
         # BEGIN PROBLEM 5
         "*** YOUR CODE HERE ***"
+        first, rest = scheme_eval(first, env), rest.map(lambda x: scheme_eval(x, env))
+        check_procedure(first)
+        return scheme_apply(first, rest, env)
         # END PROBLEM 5
 
 def self_evaluating(expr):
@@ -84,7 +87,10 @@ class Frame:
         """Return the value bound to SYMBOL. Errors if SYMBOL is not found."""
         # BEGIN PROBLEM 3
         "*** YOUR CODE HERE ***"
-        return self.bindings[symbol]
+        if symbol in self.bindings:
+            return self.bindings[symbol]
+        if self.parent:
+            return self.parent.lookup(symbol)
         # END PROBLEM 3
         raise SchemeError('unknown identifier: {0}'.format(symbol))
 

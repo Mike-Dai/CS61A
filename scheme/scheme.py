@@ -114,6 +114,12 @@ class Frame:
         child = Frame(self) # Create a new child with self as the parent
         # BEGIN PROBLEM 11
         "*** YOUR CODE HERE ***"
+        if len(formals) != len(vals):
+            raise SchemeError
+        for i in range(0, len(formals)):
+            child.define(formals.first, vals.first)
+            formals = formals.second
+            vals = vals.second
         # END PROBLEM 11
         return child
 

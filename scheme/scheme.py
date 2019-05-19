@@ -281,12 +281,26 @@ def do_and_form(expressions, env):
     """Evaluate a (short-circuited) and form."""
     # BEGIN PROBLEM 13
     "*** YOUR CODE HERE ***"
+    if len(expressions) == 0:
+        return True
+    while expressions.second != nil:
+        if scheme_falsep(scheme_eval(expressions.first, env)):
+            return False
+        expressions = expressions.second
+    return scheme_eval(expressions.first, env)
+    
     # END PROBLEM 13
 
 def do_or_form(expressions, env):
     """Evaluate a (short-circuited) or form."""
     # BEGIN PROBLEM 13
     "*** YOUR CODE HERE ***"
+    if expressions == nil:
+        return False
+    elif scheme_truep(scheme_eval(expressions.first, env)):
+        return scheme_eval(expressions.first, env)
+    else:
+        return do_or_form(expressions.second, env)
     # END PROBLEM 13
 
 def do_cond_form(expressions, env):

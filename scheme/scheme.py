@@ -339,6 +339,19 @@ def make_let_frame(bindings, env):
         raise SchemeError('bad bindings list in let form')
     # BEGIN PROBLEM 15
     "*** YOUR CODE HERE ***"
+    formals = nil
+    vals = nil
+    while bindings != nil:
+        element = bindings.first
+        check_form(element, 2, 2)
+        formal = element.first
+        val = element.second.first
+        formals = Pair(formal, formals)
+        vals = Pair(scheme_eval(val, env), vals)
+        bindings = bindings.second
+        check_formals(formals)
+    local_env = env.make_child_frame(formals, vals)
+    return local_env
     # END PROBLEM 15
 
 def do_define_macro(expressions, env):

@@ -317,6 +317,10 @@ def do_cond_form(expressions, env):
         if scheme_truep(test):
             # BEGIN PROBLEM 14
             "*** YOUR CODE HERE ***"
+            predicate = clause.second
+            if predicate == nil:
+                return test
+            return eval_all(predicate, env)
             # END PROBLEM 14
         expressions = expressions.second
 

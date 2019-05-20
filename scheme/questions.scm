@@ -6,16 +6,13 @@
 ; Some utility functions that you may find useful to implement.
 
 (define (cons-all first rests)
-  (cons first (cons-all (car rests) (cdr rests))))
+  (if (null? rests)
+      (list first)
+      (map (lambda (x) (append (list first) x)) rests)))
 
 (define (zip pair1 pair2)
   (cons (cons (car pair1) (car pair2)) (zip (cdr pair1) (cdr pair2))))
 
-(define (ints i s)
-  (cond
-    ((= s nil) nil)
-    (else (cons i (ints (+ i 1) (cdr s))))
-  ))
 ;; Problem 17
 ;; Returns a list of two-element lists
 (define (enumerate s)
@@ -37,8 +34,17 @@
 ;; List all ways to make change for TOTAL with DENOMS
 (define (list-change total denoms)
   ; BEGIN PROBLEM 18
-  'replace-this-line
+  (cond
+    ((or (< total 0) (null? denoms)) nil)
+    ((= total 0) (cons nil nil))
+    ((> (car denoms) total) (list-change total (cdr denoms)))
+    (else 
+      (append 
+        (cons-all (car denoms) (list-change (- total (car denoms)) denoms))
+        (list-change total (cdr denoms)))
+    )
   )
+)
   ; END PROBLEM 18
 
 ;; Problem 19

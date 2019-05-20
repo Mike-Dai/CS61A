@@ -7,11 +7,20 @@
 )
 
 (define (scale-stream s k)
-  'YOUR-CODE-HERE
+  (cond
+  	((null? s) nil)
+  	(else (cons-stream (* (car s) k) (scale-stream (cdr-stream s) k))))
 )
 
 (define (has-cycle s)
-  'YOUR-CODE-HERE
+  (define (helper haste lazy)
+  	(cond
+  		((or (null? haste) (null? (cdr-stream haste))) #f)
+  		((eq? haste lazy) #t)
+  		(else (helper (cdr-stream (cdr-stream haste)) (cdr-stream lazy)))
+  	)
+  )
+  (helper (cdr-stream s) s)
 )
 (define (has-cycle-constant s)
   'YOUR-CODE-HERE

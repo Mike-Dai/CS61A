@@ -23,5 +23,12 @@
   (helper (cdr-stream s) s)
 )
 (define (has-cycle-constant s)
-  'YOUR-CODE-HERE
+  (define (helper haste lazy)
+  	(cond
+  		((or (null? haste) (null? (cdr-stream haste))) #f)
+  		((eq? haste lazy) #t)
+  		(else (helper (cdr-stream (cdr-stream haste)) (cdr-stream lazy)))
+  	)
+  )
+  (helper (cdr-stream s) s)
 )
